@@ -18,19 +18,30 @@ public:
     }
 
 protected:
+
+    void dragMoveEvent(QDragMoveEvent *event) {
+    }
+
     void mousePressEvent(QMouseEvent *event)  {
+        QTableWidget::mousePressEvent(event);
         if (event->button() == Qt::LeftButton) {
             QModelIndex index = indexAt(event->pos());
             if (index.isValid()) {
+
+
                 QDrag* drag = new QDrag(this);
                 QMimeData* mimeData = new QMimeData;
                 mimeData->setText(item(index.row(), 1)->text());
                 drag->setMimeData(mimeData);
                 drag->exec(Qt::CopyAction);
+
+
             }
         }
-        QTableWidget::mousePressEvent(event);
     }
+
+
+private:
 
 };
 

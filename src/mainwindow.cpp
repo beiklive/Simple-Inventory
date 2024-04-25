@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     int GroundPosX = ui->ground->x();
     int GroundPosY = ui->ground->y();
 
-    ui->info_label->setText("Groundåæ ‡: " + QString::number(GroundPosX) + ", " + QString::number(GroundPosY));
+    ui->info_label->setText(QStringLiteral("Ground×ø±ê: ") + QString::number(GroundPosX) + ", " + QString::number(GroundPosY));
 
 
 }
@@ -31,20 +31,20 @@ void MainWindow::ReadAllItems()
     std::string projectRootDir = beiklive::filesystem::getProjectRootDirectory();
     std::string path = "/res/items.csv";
 
-    // è¯»å– CSV æ–‡ä»¶
+    // ¶ÁÈ¡ CSV ÎÄ¼ş
     csvReader = new CSVReader(projectRootDir + path);
     vector<Item> items = csvReader->readCSV();
-    // æ„é€ ç‰©å“ç®¡ç†å™¨
+    // ¹¹ÔìÎïÆ·¹ÜÀíÆ÷
     itemManager = new ItemManager(items);
     
-    // è¾“å‡ºè¯»å–çš„ç‰©å“ä¿¡æ¯
-    cout << "è¯»å–åˆ°çš„ç‰©å“ä¿¡æ¯ï¼š" << endl;
+    // Êä³ö¶ÁÈ¡µÄÎïÆ·ĞÅÏ¢
+    cout << "¶ÁÈ¡µ½µÄÎïÆ·ĞÅÏ¢:\t" << endl;
     ui->tableWidget->setColumnCount(ITEM_TYPES_COUNT);
-    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "ID" << "åç§°" << "ä»·å€¼" << "é‡é‡" << "æ•°é‡" << "ç§ç±»");
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "ID" << QStringLiteral("Ãû³Æ") << QStringLiteral("¼ÛÖµ") << QStringLiteral("ÖØÁ¿") << QStringLiteral("ÊıÁ¿") << QStringLiteral("ÖÖÀà"));
     for (const auto& item : items) {
-        qDebug() << "ID: " << QString::number(item.id) << ", åç§°: " <<QString::fromStdString(item.name) << ", ä»·å€¼: " << QString::number(item.value) << ", é‡é‡: " << QString::number(item.weight) << ", æ•°é‡: " << QString::number(item.quantity);
-        cout << "ID: " << item.id << ", åç§°: " << item.name << ", ä»·å€¼: " << item.value << ", é‡é‡: " << item.weight << ", æ•°é‡: " << item.quantity << endl;
-        // æ˜¾ç¤ºåˆ°ç•Œé¢ä¸Š
+        qDebug() << "ID: " << QString::number(item.id) << ", Ãû³Æ: " <<QString::fromStdString(item.name) << ", ¼ÛÖµ: " << QString::number(item.value) << ", ÖØÁ¿: " << QString::number(item.weight) << ", ÊıÁ¿: " << QString::number(item.quantity);
+        cout << "ID: " << item.id << ", Ãû³Æ: " << item.name << ", ¼ÛÖµ: " << item.value << ", ÖØÁ¿: " << item.weight << ", ÊıÁ¿: " << item.quantity << endl;
+        // ÏÔÊ¾µ½½çÃæÉÏ
         ui->tableWidget->insertRow(ui->tableWidget->rowCount());
         ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, new QTableWidgetItem(QString::number(item.id)));
         ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(QString::fromStdString(item.name)));
@@ -69,7 +69,7 @@ void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
     int row = item->row();
     int id = ui->tableWidget->item(row, 0)->text().toInt();
 
-    StatusBarMessage("å½“å‰é€‰ä¸­: " + QString::fromStdString(itemManager->getItem(id).name));
+    StatusBarMessage(QStringLiteral("µ±Ç°Ñ¡ÖĞ: ") + QString::fromStdString(itemManager->getItem(id).name));
 }
 
 
@@ -78,7 +78,7 @@ void MainWindow::on_tableWidget_itemPressed(QTableWidgetItem *item)
     int row = item->row();
     int id = ui->tableWidget->item(row, 0)->text().toInt();
 
-    StatusBarMessage("å½“å‰ç„¦ç‚¹: " + QString::fromStdString(itemManager->getItem(id).name));
+    StatusBarMessage(QStringLiteral("µ±Ç°½¹µã: ") + QString::fromStdString(itemManager->getItem(id).name));
 
 }
 
@@ -120,15 +120,16 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
+    widgetUnderMouse = ui->tableWidget->getWidgetUnderMouse();
     // if (isMousePressed) 
     // {
-    //     int x = event->x();
-    //     int y = event->y();
+        int x = event->x();
+        int y = event->y();
     //     int row = ui->tableWidget->rowAt(y);
     //     int column = ui->tableWidget->columnAt(x);
-    //     StatusBarMessage("å½“å‰åæ ‡: " + QString::number(x) + ", " + QString::number(y));
+        StatusBarMessage(QStringLiteral("µ±Ç°×ø±ê: ") + QString::number(x) + ", " + QString::number(y));
     
-    //     widgetUnderMouse->move(x, y);
+        widgetUnderMouse->move(x, y);
 
     // }
 }
@@ -138,7 +139,7 @@ void MainWindow::dropEvent(QDropEvent* event)  {
     if (event->mimeData()->hasText()) {
         // qDebug() << "Dropped: " << event->mimeData()->text();
         StatusBarMessage("Dropped: " + event->mimeData()->text());
-        // åœ¨è¿™é‡Œå¤„ç†æ‹–æ”¾çš„æ•°æ®
+        // ÔÚÕâÀï´¦ÀíÍÏ·ÅµÄÊı¾İ
         if (isInGround(event->pos()))
         {
             ui->name_label->setText(event->mimeData()->text());

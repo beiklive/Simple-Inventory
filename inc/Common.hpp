@@ -17,7 +17,6 @@ namespace beiklive{
     namespace filesystem{
         std::string getProjectRootDirectory() {
             const std::string keyDir = ROOT_PATH_KEY_DIR;
-            // 在 Windows 下使用反斜杠，其他系统使用正斜杠
             std::string separator = "/";
         #ifdef _WIN32
             separator = "\\";
