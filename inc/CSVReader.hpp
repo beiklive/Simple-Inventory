@@ -8,21 +8,9 @@
 #include <sstream>
 #include <vector>
 #include <string>
-
+#include "ItemManager.h"
 using namespace std;
 using string_t = std::string;
-
-// 物品结构体
-struct Item {
-    int id;
-    string name;
-    int value;
-    int weight;
-    int quantity;
-    string type;
-};
-#define ITEM_TYPES_COUNT   6
-
 
 
 
