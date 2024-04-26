@@ -1,0 +1,1 @@
+#include "InventoryWidgetItem.h"

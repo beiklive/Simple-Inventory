@@ -5,17 +5,17 @@
 #define INC_INVENTORYWIDGETITEM_H_
 #include <QWidget>
 
-class InventoryWidgetItem : public QWidget {
+// class InventoryWidgetItem : public QWidget {
 
-  Q_OBJECT
+//   Q_OBJECT
 
- public:
-  explicit InventoryWidgetItem(QWidget* parent = nullptr);
-  ~InventoryWidgetItem();
+//  public:
+//   explicit InventoryWidgetItem(QWidget* parent = nullptr);
+//   ~InventoryWidgetItem();
 
- private:
-  void paintEvent(QPaintEvent* event) override;
-};
+//  private:
+//   void paintEvent(QPaintEvent* event) override;
+// };
 
 
 

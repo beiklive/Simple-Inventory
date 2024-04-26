@@ -6,19 +6,19 @@
 #include <QWidget>
 
 
-class InventoryWidget : public QWidget {
-  Q_OBJECT
+// class InventoryWidget : public QWidget {
+//   Q_OBJECT
 
- public:
-  explicit InventoryWidget(QWidget* parent = nullptr);
-  ~InventoryWidget() override;
+//  public:
+//   explicit InventoryWidget(QWidget* parent = nullptr);
+//   ~InventoryWidget() override;
 
- private:
-  void initUI();
+//  private:
+//   void initUI();
 
 
 
-};
+// };
 
 
 
