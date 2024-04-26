@@ -4,7 +4,7 @@
 #include <QUrl>
 #include "Common.hpp"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -16,10 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tableWidget, &QTableWidget::itemPressed, this, &MainWindow::on_tableWidget_itemPressed);
 
 
-    int GroundPosX = ui->ground->x();
-    int GroundPosY = ui->ground->y();
 
-    ui->info_label->setText(QStringLiteral("Ground×ø±ê: ") + QString::number(GroundPosX) + ", " + QString::number(GroundPosY));
+
 
 
 }
@@ -31,20 +29,17 @@ void MainWindow::ReadAllItems()
     std::string projectRootDir = beiklive::filesystem::getProjectRootDirectory();
     std::string path = "/res/items.csv";
 
-    // ¶ÁÈ¡ CSV ÎÄ¼ş
+    // è¯»å– CSV æ–‡ä»¶
     csvReader = new CSVReader(projectRootDir + path);
     vector<Item> items = csvReader->readCSV();
-    // ¹¹ÔìÎïÆ·¹ÜÀíÆ÷
+    // æ„é€ ç‰©å“ç®¡ç†å™¨
     itemManager = new ItemManager(items);
-    
-    // Êä³ö¶ÁÈ¡µÄÎïÆ·ĞÅÏ¢
-    cout << "¶ÁÈ¡µ½µÄÎïÆ·ĞÅÏ¢:\t" << endl;
+
+    // è¾“å‡ºè¯»å–çš„ç‰©å“ä¿¡æ¯
     ui->tableWidget->setColumnCount(ITEM_TYPES_COUNT);
-    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "ID" << QStringLiteral("Ãû³Æ") << QStringLiteral("¼ÛÖµ") << QStringLiteral("ÖØÁ¿") << QStringLiteral("ÊıÁ¿") << QStringLiteral("ÖÖÀà"));
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "ID" << "NAME" << ("VALUE") << ("WEIGHT") << ("NUMBER") << ("TYPE"));
     for (const auto& item : items) {
-        qDebug() << "ID: " << QString::number(item.id) << ", Ãû³Æ: " <<QString::fromStdString(item.name) << ", ¼ÛÖµ: " << QString::number(item.value) << ", ÖØÁ¿: " << QString::number(item.weight) << ", ÊıÁ¿: " << QString::number(item.quantity);
-        cout << "ID: " << item.id << ", Ãû³Æ: " << item.name << ", ¼ÛÖµ: " << item.value << ", ÖØÁ¿: " << item.weight << ", ÊıÁ¿: " << item.quantity << endl;
-        // ÏÔÊ¾µ½½çÃæÉÏ
+        // æ˜¾ç¤ºåˆ°ç•Œé¢ä¸Š
         ui->tableWidget->insertRow(ui->tableWidget->rowCount());
         ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, new QTableWidgetItem(QString::number(item.id)));
         ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(QString::fromStdString(item.name)));
@@ -64,21 +59,21 @@ MainWindow::~MainWindow()
 
 
 // void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
-void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
+void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem* item)
 {
     int row = item->row();
     int id = ui->tableWidget->item(row, 0)->text().toInt();
 
-    StatusBarMessage(QStringLiteral("µ±Ç°Ñ¡ÖĞ: ") + QString::fromStdString(itemManager->getItem(id).name));
+    StatusBarMessage(QStringLiteral("DoubleClicked: ") + QString::fromStdString(itemManager->getItem(id).name));
 }
 
 
-void MainWindow::on_tableWidget_itemPressed(QTableWidgetItem *item)
+void MainWindow::on_tableWidget_itemPressed(QTableWidgetItem* item)
 {
     int row = item->row();
     int id = ui->tableWidget->item(row, 0)->text().toInt();
 
-    StatusBarMessage(QStringLiteral("µ±Ç°½¹µã: ") + QString::fromStdString(itemManager->getItem(id).name));
+    StatusBarMessage(QStringLiteral("Pressed: ") + QString::fromStdString(itemManager->getItem(id).name));
 
 }
 
@@ -87,76 +82,46 @@ void MainWindow::StatusBarMessage(QString message)
     ui->statusBar->showMessage(message);
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event)
+void MainWindow::mousePressEvent(QMouseEvent* event)
 {
-    // isMousePressed = true;
-    // int x = event->x();
-    // int y = event->y();
-    // widgetUnderMouse = new QWidget(this);
-    // widgetUnderMouse->setAttribute(Qt::WA_DeleteOnClose);
-    // widgetUnderMouse->setStyleSheet("background-color: yellow;");
-    // // widgetUnderMouse->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
-    // widgetUnderMouse->setCursor(Qt::CrossCursor);
-    // widgetUnderMouse->resize(50, 20);
-    // widgetUnderMouse->move(x+5, y+5);
-    
-    // widgetUnderMouse->show();
 }
 
 
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+void MainWindow::mouseReleaseEvent(QMouseEvent* event)
 {
-    // isMousePressed = false;
 
-    // if(widgetUnderMouse!= nullptr)
-    // {
-    //     widgetUnderMouse->close();
-    //     delete widgetUnderMouse;
-    //     widgetUnderMouse = nullptr;
-    // }
 }
 
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
+void MainWindow::mouseMoveEvent(QMouseEvent* event)
 {
-    widgetUnderMouse = ui->tableWidget->getWidgetUnderMouse();
-    // if (isMousePressed) 
-    // {
-        int x = event->x();
-        int y = event->y();
-    //     int row = ui->tableWidget->rowAt(y);
-    //     int column = ui->tableWidget->columnAt(x);
-        StatusBarMessage(QStringLiteral("µ±Ç°×ø±ê: ") + QString::number(x) + ", " + QString::number(y));
-    
-        widgetUnderMouse->move(x, y);
-
-    // }
+    int x = event->x();
+    int y = event->y();
+    StatusBarMessage(QStringLiteral("Mouse Move: ") + QString::number(x) + ", " + QString::number(y));
 }
 
 
-void MainWindow::dropEvent(QDropEvent* event)  {
+void MainWindow::dropEvent(QDropEvent* event) {
     if (event->mimeData()->hasText()) {
-        // qDebug() << "Dropped: " << event->mimeData()->text();
         StatusBarMessage("Dropped: " + event->mimeData()->text());
-        // ÔÚÕâÀï´¦ÀíÍÏ·ÅµÄÊı¾İ
         if (isInGround(event->pos()))
         {
-            ui->name_label->setText(event->mimeData()->text());
+            CreateDropItem(event);
+            // ui->name_label->setText(event->mimeData()->text());
         }
-        
     }
     event->acceptProposedAction();
 }
 
-void MainWindow::dragEnterEvent(QDragEnterEvent* event)  {
+void MainWindow::dragEnterEvent(QDragEnterEvent* event) {
     event->acceptProposedAction();
 }
 
 bool MainWindow::isInGround(QPoint pos)
 {
-    int GroundPosX = ui->ground->x();
-    int GroundPosY = ui->ground->y();
+    int GroundPosX = ui->groupBox->width() + 2;
+    int GroundPosY = 16;
     int GroundWidth = ui->ground->width();
     int GroundHeight = ui->ground->height();
 
@@ -165,4 +130,33 @@ bool MainWindow::isInGround(QPoint pos)
         return true;
     }
     return false;
+}
+
+
+void MainWindow::CreateDropItem(QDropEvent* event)
+{
+    // if (event->mimeData()->hasText()) 
+    {
+        widgetUnderMouse = new QPushButton(ui->ground);
+        widgetUnderMouse->setAttribute(Qt::WA_DeleteOnClose);
+        widgetUnderMouse->setText(event->mimeData()->text());
+        widgetUnderMouse->resize(100, 30);
+        widgetUnderMouse->move(event->pos().x() - ui->groupBox->width() - 2 - 11 - widgetUnderMouse->width() / 2, event->pos().y() - 16 - 11 - widgetUnderMouse->height() / 2);
+        widgetUnderMouse->show();
+        connect(widgetUnderMouse, &QPushButton::clicked, this, &MainWindow::on_groundItem_clicked);
+
+        widgetsInGroundList.emplace_back(widgetUnderMouse);
+        widgetUnderMouse = nullptr;
+
+    }
+}
+
+
+void MainWindow::on_groundItem_clicked()
+{
+    QPushButton* button = qobject_cast<QPushButton*>(sender());
+    if (button) {
+        QString buttonName = button->text();
+        StatusBarMessage(QStringLiteral("Clicked: ") + buttonName);
+    }
 }

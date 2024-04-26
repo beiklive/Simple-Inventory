@@ -27,7 +27,8 @@ protected:
         if (event->button() == Qt::LeftButton) {
             QModelIndex index = indexAt(event->pos());
             if (index.isValid()) {
-
+                // focus the item
+                setCurrentIndex(index);
 
                 QDrag* drag = new QDrag(this);
                 QMimeData* mimeData = new QMimeData;

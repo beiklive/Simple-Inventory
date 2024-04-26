@@ -6,6 +6,7 @@
 #include <QMouseEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QPushButton>
 #include "MyTableWidget.hpp"
 
 #include "CSVReader.hpp"
@@ -29,6 +30,7 @@ public:
 
 
     bool isInGround(QPoint pos);
+    void CreateDropItem(QDropEvent* event);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -41,7 +43,7 @@ protected:
 public:
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void on_tableWidget_itemPressed(QTableWidgetItem *item);
-
+    void on_groundItem_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -50,7 +52,8 @@ private:
 
     bool isMousePressed;
 
-    QWidget *widgetUnderMouse{nullptr};
+    QPushButton *widgetUnderMouse{nullptr};
+    std::vector<QPushButton*> widgetsInGroundList;
 };
 
 #endif // MAINWINDOW_H

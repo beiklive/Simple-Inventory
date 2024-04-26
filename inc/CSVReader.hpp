@@ -14,7 +14,7 @@ using string_t = std::string;
 
 
 
-// CSVReader Àà
+// CSVReader ç±»
 class CSVReader {
 private:
     string_t filename;
@@ -24,18 +24,18 @@ private:
 public:
     CSVReader(const string_t& filename, char delimiter = ',') : filename(filename), delimiter(delimiter) {}
 
-    // ¶ÁÈ¡ CSV ÎÄ¼ş
+    // è¯»å– CSV æ–‡ä»¶
     vector<Item> readCSV() {
         ifstream file(filename);
         if (!file.is_open()) {
-            // cerr << "ÎŞ·¨´ò¿ªÎÄ¼ş:\t" << filename << endl;
+            // cerr << "æ— æ³•æ‰“å¼€æ–‡ä»¶:\t" << filename << endl;
             return items;
         }
 
         string_t line;
-        getline(file, line); // Ìø¹ıµÚÒ»ĞĞ±êÌâĞĞ
+        getline(file, line); // è·³è¿‡ç¬¬ä¸€è¡Œæ ‡é¢˜è¡Œ
         while (getline(file, line)) {
-            // cout << "¶ÁÈ¡µ½µÄĞĞÄÚÈİ:\t" << line << endl; // ´òÓ¡¶ÁÈ¡µ½µÄÃ¿Ò»ĞĞÄÚÈİ
+            // cout << "è¯»å–åˆ°çš„è¡Œå†…å®¹:\t" << line << endl; // æ‰“å°è¯»å–åˆ°çš„æ¯ä¸€è¡Œå†…å®¹
 
             istringstream iss(line);
             string_t field;
@@ -45,7 +45,7 @@ public:
             }
 
             if (fields.size() != 6) {
-                // cerr << "´íÎóµÄ CSV ¸ñÊ½:\t" << line << endl;
+                // cerr << "é”™è¯¯çš„ CSV æ ¼å¼:\t" << line << endl;
                 continue;
             }
 
@@ -59,8 +59,9 @@ public:
                 item.quantity = stoi(fields[4]);
                 item.type = fields[5];
 
-            } catch (const exception& e) {
-                // cerr << "×ª»»Ê§°Ü:\t" << e.what() << endl;
+            }
+            catch (const exception& e) {
+                // cerr << "è½¬æ¢å¤±è´¥:\t" << e.what() << endl;
                 continue;
             }
 
