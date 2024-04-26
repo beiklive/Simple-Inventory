@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QUrl>
 #include "Common.hpp"
-
+#include "InventoryWidgetItem.h"
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->tableWidget, &QTableWidget::itemPressed, this, &MainWindow::on_tableWidget_itemPressed);
 
 
-
-
+    InventoryWidgetItem *item = new InventoryWidgetItem(ui->widget);
+    item->show();
 
 
 }
