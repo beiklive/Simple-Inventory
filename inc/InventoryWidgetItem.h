@@ -7,29 +7,26 @@
 
 namespace Ui
 {
-class WidgetItem;    
+    class WidgetItem;
 } // namespace Ui
 
+class InventoryWidgetItem : public QWidget
+{
 
+    Q_OBJECT
 
-class InventoryWidgetItem : public QWidget {
+public:
+    explicit InventoryWidgetItem(QWidget *parent = nullptr);
+    ~InventoryWidgetItem();
 
-  Q_OBJECT
-
- public:
-  explicit InventoryWidgetItem(QWidget* parent = nullptr);
-  ~InventoryWidgetItem();
-
- private:
-//   void paintEvent(QPaintEvent* event) override;
-
-
+    void init(int width, int height, int x, int y, QString name, int count);
+    void init(QSize size, QPoint pos, QString name, int count);
 
 private:
+    //   void paintEvent(QPaintEvent* event) override;
 
-  Ui::WidgetItem* ui;
+private:
+    Ui::WidgetItem *ui;
 };
 
-
-
-#endif  // INC_INVENTORYWIDGETITEM_H_
+#endif // INC_INVENTORYWIDGETITEM_H_
