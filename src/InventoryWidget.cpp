@@ -85,6 +85,16 @@ void InventoryWidget:: setWidgetItemPos(QPoint pos)
     }
 }
 
+void InventoryWidget:: resetWidgetItem(int id, Item item)
+{
+    for (auto _item : _widgetItems)
+    {
+        if(_item->GetWidgetItemID() == id)
+        {
+            _item->SetItem(item);
+        }
+    }
+}
 
 void InventoryWidget:: createWidgetItems(int id, QString WidgetName, QSize WidgetSize, QPoint WidgetPos, Item item)
 {
@@ -93,6 +103,19 @@ void InventoryWidget:: createWidgetItems(int id, QString WidgetName, QSize Widge
     itemWidget->SetWidgetItemID(id);
     itemWidget->SetWidgetItemName(WidgetName);
     _widgetItems.emplace_back(itemWidget);
+
+
+    connect(itemWidget, SIGNAL(itemClick(int)), this, SLOT(onWidgetItemClick(int)));
+}
+
+
+void InventoryWidget:: onWidgetItemClick(int id)
+{   
+    
+    QString itemName = ""+id;
+
+
+
 }
 
 void InventoryWidget:: showAllWidgetItems(bool show)

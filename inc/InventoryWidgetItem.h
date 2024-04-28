@@ -41,6 +41,7 @@ public:
     void SetSize(QSize size);
     void SetPos(QPoint pos);
     void SetItem();
+    void SetItem(Item item);
     void SetWidgetItemName(QString name);
     void SetWidgetItemID(int id);
 

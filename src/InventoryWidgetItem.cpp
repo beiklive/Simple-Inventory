@@ -47,6 +47,12 @@ void InventoryWidgetItem::SetItem()
     ui->count_label->setText(QString::number(_item.quantity));
 }
 
+void InventoryWidgetItem::SetItem(Item item)
+{
+    ui->name_label->setText(QString::fromStdString(item.name));
+    ui->count_label->setText(QString::number(item.quantity));
+}
+
 void InventoryWidgetItem:: SetWidgetItemName(QString name)
 {
     ui->groupBox->setTitle(name);

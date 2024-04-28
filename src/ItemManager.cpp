@@ -52,6 +52,15 @@ Item ItemManager::getItem(int id)
     return Item();
 }
 
+Item ItemManager::getItem(std::string name)
+{
+    for (auto it = m_items.begin(); it!= m_items.end(); ++it) {
+        if ((*it).name == name) {
+            return *it;
+        }
+    }
+    return Item();
+}
 
 std::vector<Item> ItemManager::getItems()
 {

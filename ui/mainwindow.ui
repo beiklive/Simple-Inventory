@@ -35,7 +35,7 @@
          </size>
         </property>
         <property name="title">
-         <string>items</string>
+         <string>物品表</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
          <property name="leftMargin">
@@ -86,7 +86,7 @@
         <item>
          <widget class="QGroupBox" name="groupBox_4">
           <property name="title">
-           <string>Ground</string>
+           <string>地面</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
            <property name="leftMargin">
@@ -250,7 +250,7 @@
                     <item>
                      <widget class="QPushButton" name="collect_btn">
                       <property name="text">
-                       <string>Collect from ground</string>
+                       <string>从地上捡起</string>
                       </property>
                      </widget>
                     </item>

@@ -37,6 +37,7 @@ public:
     void removeItem(int id);
     void updateItem(int id, Item& item);
     Item getItem(int id);
+    Item getItem(std::string name);
     std::vector<Item> getItems();
 
     void printAllItems();

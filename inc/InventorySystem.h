@@ -46,22 +46,22 @@ public:
     int get_current_weight();
     int get_max_capacity();
     int get_current_capacity();
-    int get_item_count_in_bag(Item& item);
-    int get_item_pos_in_bag(Item& item);
+    int get_item_count_in_bag(Item item);
+    int get_item_pos_in_bag(Item item);
     Item get_item_in_bag_by_pos(int pos);
     int get_first_empty_pos_in_bag();
 
-    bool add_item_to_bag(Item& item);
-    bool add_item_to_bag(Item& item, int pos);
-    bool remove_item_from_bag(Item& item, int count, int pos);
-    bool remove_item_from_bag(Item& item);
+    int add_item_to_bag(Item item);
+    bool add_item_to_bag(Item item, int pos);
+    bool remove_item_from_bag(Item item, int count, int pos);
+    bool remove_item_from_bag(Item item);
     bool reset_pos_from_bag(int pos);
 
     bool is_bag_full();
     bool is_bag_empty();
-    bool is_item_in_bag(Item& item);
+    bool is_item_in_bag(Item item);
     bool is_bag_pos_empty(int pos);
-    bool is_bag_pos_item_same(int pos, Item& item);
+    bool is_bag_pos_item_same(int pos, Item item);
 };
 
 

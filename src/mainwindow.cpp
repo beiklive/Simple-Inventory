@@ -17,8 +17,11 @@ MainWindow::MainWindow(QWidget* parent) :
 
 
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
-
+    connect(ui->collect_btn, &QPushButton::clicked, this, &MainWindow::on_collect_btn_clicked);
+    
+    inventorySystem = new InventorySystem(8, 500);
     ui->widget->initWidget(8);
+    ui->pushButton->setEnabled(false);
 
 }
 
@@ -142,10 +145,13 @@ void MainWindow::CreateDropItem(QDropEvent* event)
         widgetUnderMouse->setText(event->mimeData()->text());
         widgetUnderMouse->resize(100, 30);
         widgetUnderMouse->move(event->pos().x() - ui->groupBox->width() - 2 - 11 - widgetUnderMouse->width() / 2, event->pos().y() - 16 - 11 - widgetUnderMouse->height() / 2);
+        // widgetUnderMouse->move(event->pos().x() - widgetUnderMouse->width() / 2, event->pos().y() - widgetUnderMouse->height() / 2);
         widgetUnderMouse->show();
         connect(widgetUnderMouse, &QPushButton::clicked, this, &MainWindow::on_groundItem_clicked);
 
         widgetsInGroundList.emplace_back(widgetUnderMouse);
+        listcount++;
+
         widgetUnderMouse = nullptr;
 
     }
@@ -158,10 +164,51 @@ void MainWindow::on_groundItem_clicked()
     if (button) {
         QString buttonName = button->text();
         StatusBarMessage(QStringLiteral("Clicked: ") + buttonName);
+
+
+
+
+        // 移除按钮
+        button->hide();
+        // widgetsInGroundList.erase(button);
+        delete button;
+
+        // 使被点击的按钮浮动到父对象层级
+        // if(button->parent() == ui->ground)
+        // {
+        //     int x = button->x();
+        //     int y = button->y();
+        //     button->setParent(this);
+        //     button->move(x + ui->groupBox->width() + 12, y  + 27);
+        //     button->show();
+        // }
     }
 }
 
 void MainWindow:: on_pushButton_clicked()
 {
     ui->widget->addWidgetItem();
+}
+
+void MainWindow:: on_collect_btn_clicked()
+{
+    for (auto widget : widgetsInGroundList)
+    {
+        if(!inventorySystem->is_bag_full() && widget->text() != "NULL")
+        {
+            QString buttonName = widget->text();
+            int index = inventorySystem->add_item_to_bag(itemManager->getItem(buttonName.toStdString()));
+            Item it = inventorySystem->get_item_in_bag_by_pos(index);
+            ui->widget->resetWidgetItem(index, it);
+            widget->hide();
+            widget->setText("NULL");
+            listcount--;
+        }
+    }
+    ///widgetsInGroundList 清空，容量也清零
+    if(listcount== 0)
+    {
+        widgetsInGroundList.clear();    
+    }
+
 }

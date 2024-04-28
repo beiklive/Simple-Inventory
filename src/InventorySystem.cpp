@@ -24,7 +24,11 @@ void InventorySystem::set_bag_capacity(int capacity)
         delete[] items;
     }
     //std::vector<Item>* items;
-    items = new std::vector<Item>[capacity];
+    items = new std::vector<Item>;
+    for(int i = 0; i < capacity; ++i)
+    {
+        (*items).push_back(get_empty_item());
+    }
 }
 
 Item InventorySystem::get_empty_item()
@@ -75,20 +79,22 @@ Item InventorySystem::get_item_in_bag_by_pos(int pos)
 }
 
 
-bool InventorySystem::add_item_to_bag(Item& item)
+int InventorySystem::add_item_to_bag(Item item)
 {
     if (!is_bag_full())
     {
         if (is_item_in_bag(item))
         {
+            int index = 0;
             for (auto it = items->begin(); it != items->end(); ++it)
-            {
+            {   
                 if ((*it).name == item.name && (*it).id == item.id)
                 {
                     (*it).quantity += item.quantity;
                     _current_weight += item.weight * item.quantity;
-                    return true;
+                    return index;
                 }
+                index ++;
             }
         }
         else
@@ -97,14 +103,15 @@ bool InventorySystem::add_item_to_bag(Item& item)
             {
                 int pos = get_first_empty_pos_in_bag();
                 add_item_to_bag(item, pos);
+                return pos;
             }
         }
 
     }
-    return false;
+    return -1;
 }
 
-bool InventorySystem::add_item_to_bag(Item& item, int pos)
+bool InventorySystem::add_item_to_bag(Item item, int pos)
 {
     if (!is_bag_full() && _current_capacity < _max_capacity && pos >= 0 && pos < _max_capacity)
     {
@@ -116,7 +123,7 @@ bool InventorySystem::add_item_to_bag(Item& item, int pos)
     return false;
 }
 
-bool InventorySystem::remove_item_from_bag(Item& item, int count, int pos)
+bool InventorySystem::remove_item_from_bag(Item item, int count, int pos)
 {
     if (!is_bag_empty() && pos >= 0 && pos < _max_capacity)
     {
@@ -138,7 +145,7 @@ bool InventorySystem::remove_item_from_bag(Item& item, int count, int pos)
     return false;
 }
 
-bool InventorySystem::remove_item_from_bag(Item& item)
+bool InventorySystem::remove_item_from_bag(Item item)
 {
     if (!is_bag_empty())
     {
@@ -177,7 +184,7 @@ bool InventorySystem::is_bag_empty()
 }
 
 
-bool InventorySystem::is_item_in_bag(Item& item)
+bool InventorySystem::is_item_in_bag(Item item)
 {
     bool found = false;
     for (auto it = items->begin(); it != items->end(); ++it)
@@ -193,7 +200,7 @@ bool InventorySystem::is_item_in_bag(Item& item)
 }
 
 
-int InventorySystem::get_item_count_in_bag(Item& item)
+int InventorySystem::get_item_count_in_bag(Item item)
 {
     int total_count = 0;
     bool found = false;
@@ -208,7 +215,7 @@ int InventorySystem::get_item_count_in_bag(Item& item)
     return found ? total_count : -1;
 }
 
-int InventorySystem::get_item_pos_in_bag(Item& item)
+int InventorySystem::get_item_pos_in_bag(Item item)
 {
     int pos = -1;
     for (int i = 0; i < _max_capacity; ++i)
@@ -228,7 +235,7 @@ bool InventorySystem::is_bag_pos_empty(int pos)
     return (*items)[pos].id == 0;
 }
 
-bool InventorySystem::is_bag_pos_item_same(int pos, Item& item)
+bool InventorySystem::is_bag_pos_item_same(int pos, Item item)
 {
     return (*items)[pos].name == item.name && (*items)[pos].id == item.id;
 }

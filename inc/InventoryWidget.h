@@ -5,7 +5,6 @@
 #define INC_INVENTORYWIDGET_H_
 #include <QWidget>
 #include <vector>
-// resize事件头文件
 #include <QResizeEvent>
 
 #include "InventoryWidgetItem.h"
@@ -31,6 +30,18 @@ class InventoryWidget : public QWidget {
     void setWidgetItemSize(QSize size);
     void setWidgetItemPos(QPoint pos);
     void addWidgetItem();
+    void resetWidgetItem(int id, Item item);
+
+//    connect(itemWidget, SIGNAL(itemClick(int)), this, SLOT(onWidgetItemClick(int)));
+
+
+ signals:
+    void itemClick(int id);
+
+ public slots:
+    void onWidgetItemClick(int id);
+
+
 
  private:
     std::vector<InventoryWidgetItem*> _widgetItems;

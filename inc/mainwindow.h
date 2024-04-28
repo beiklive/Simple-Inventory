@@ -12,6 +12,7 @@
 #include "CSVReader.hpp"
 #include "ItemManager.h"
 #include "InventoryWidget.h"
+#include "InventorySystem.h"
 namespace Ui {
 class MainWindow;
 }
@@ -45,15 +46,18 @@ public:
     void on_tableWidget_itemPressed(QTableWidgetItem *item);
     void on_groundItem_clicked();
     void on_pushButton_clicked();
+    void on_collect_btn_clicked();
 private:
     Ui::MainWindow *ui;
     ItemManager *itemManager;
     CSVReader *csvReader;
+    InventorySystem *inventorySystem;
 
     bool isMousePressed;
 
     QPushButton *widgetUnderMouse{nullptr};
     std::vector<QPushButton*> widgetsInGroundList;
+    int listcount{0};
 };
 
 #endif // MAINWINDOW_H
