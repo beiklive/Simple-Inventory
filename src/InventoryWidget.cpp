@@ -1,5 +1,5 @@
 #include "InventoryWidget.h"
-
+#include <QPushButton>
 
 InventoryWidget::InventoryWidget(QWidget *parent) : QWidget(parent)
 {
@@ -25,6 +25,10 @@ void InventoryWidget::addWidgetItem()
     showAllWidgetItems(true);
 }
 
+QSize InventoryWidget:: getWidgetItemSize()
+{
+    return QSize(_basicItemWidth, _basicItemHeight);
+}
 
 // void resizeEvent(QResizeEvent* event) override;
 void InventoryWidget::resizeEvent(QResizeEvent* event)

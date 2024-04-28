@@ -2,12 +2,16 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QUrl>
+// 定时器头文件
+#include <QTimer>
+#include <QMessageBox>
 #include "Common.hpp"
 #include "InventoryWidgetItem.h"
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    m_Timer = new QTimer(this);
     setAcceptDrops(true);
     ui->setupUi(this);
     ReadAllItems();
@@ -23,6 +27,17 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->widget->initWidget(8);
     ui->pushButton->setEnabled(false);
 
+    this->hide();
+    // 定时器 等待窗口大小初始化完成
+    connect(m_Timer, &QTimer::timeout, this, &MainWindow::onTimeOut);
+    m_Timer->start(50);
+}
+
+void MainWindow:: resizeEvent(QResizeEvent* event)
+{
+
+    bagInitPos.setX(ui->groupBox->width() + 24);
+    bagInitPos.setY(ui->groupBox_4->height() + 105);
 }
 
 
@@ -160,29 +175,44 @@ void MainWindow::CreateDropItem(QDropEvent* event)
 
 void MainWindow::on_groundItem_clicked()
 {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    if (button) {
-        QString buttonName = button->text();
-        StatusBarMessage(QStringLiteral("Clicked: ") + buttonName);
+//     QPushButton* button = qobject_cast<QPushButton*>(sender());
+//     if (button) {
+//         QString buttonName = button->text();
+//         StatusBarMessage(QStringLiteral("Clicked: ") + buttonName);
 
+//         // 使被点击的按钮浮动到父对象层级
+//         if(button->parent() == ui->ground)
+//         {
+//             if(!inventorySystem->is_bag_full())
+//             {
+//                 int x = button->x();
+//                 int y = button->y();
+//                 button->setParent(this);
+//                 button->move(x + ui->groupBox->width() + 12, y  + 27);
+//                 button->show();
 
-
-
-        // 移除按钮
-        button->hide();
-        // widgetsInGroundList.erase(button);
-        delete button;
-
-        // 使被点击的按钮浮动到父对象层级
-        // if(button->parent() == ui->ground)
-        // {
-        //     int x = button->x();
-        //     int y = button->y();
-        //     button->setParent(this);
-        //     button->move(x + ui->groupBox->width() + 12, y  + 27);
-        //     button->show();
-        // }
-    }
+//                 int index = inventorySystem->add_item_to_bag(itemManager->getItem(buttonName.toStdString()));
+//                 QPoint target_pos = ui->widget->calWidgetItemPos(index);
+//                 QPoint global_target_pos = target_pos + bagInitPos;// + QPoint(ui->widget->getWidgetItemSize().width()/2, ui->widget->getWidgetItemSize().height()/2);
+//                 positionAnimation = new QPropertyAnimation(button, "pos", this);
+//                 positionAnimation->setDuration(500);  // 设置动画持续时间为500毫秒
+//                 positionAnimation->setEasingCurve(QEasingCurve::InOutBack);
+//                 positionAnimation->setEndValue(global_target_pos);
+//                 connect(positionAnimation, &QPropertyAnimation::finished, this, [=]() {
+//                     button->hide();
+//                     Item it = inventorySystem->get_item_in_bag_by_pos(index);
+//                     ui->widget->resetWidgetItem(index, it);
+//                     button->hide();
+//                     delete button;
+//                     button = nullptr;
+//                     delete positionAnimation;
+//                     positionAnimation = nullptr;
+//                 }
+//                     );
+//                 positionAnimation->start();
+//             }
+//         }
+//     }
 }
 
 void MainWindow:: on_pushButton_clicked()
@@ -192,23 +222,52 @@ void MainWindow:: on_pushButton_clicked()
 
 void MainWindow:: on_collect_btn_clicked()
 {
-    for (auto widget : widgetsInGroundList)
+    int index_count = 0;
+    for (auto button : widgetsInGroundList)
     {
-        if(!inventorySystem->is_bag_full() && widget->text() != "NULL")
+        if(!inventorySystem->is_bag_full() && button->text() != "NULL")
         {
-            QString buttonName = widget->text();
-            int index = inventorySystem->add_item_to_bag(itemManager->getItem(buttonName.toStdString()));
-            Item it = inventorySystem->get_item_in_bag_by_pos(index);
-            ui->widget->resetWidgetItem(index, it);
-            widget->hide();
-            widget->setText("NULL");
-            listcount--;
+                int x = button->x();
+                int y = button->y();
+                button->setParent(this);
+                button->move(x + ui->groupBox->width() + 12, y  + 27);
+                button->show();
+                QString buttonName = button->text();
+                int index = inventorySystem->add_item_to_bag(itemManager->getItem(buttonName.toStdString()));
+                QPoint target_pos = ui->widget->calWidgetItemPos(index);
+                QPoint global_target_pos = target_pos + bagInitPos;// + QPoint(ui->widget->getWidgetItemSize().width()/2, ui->widget->getWidgetItemSize().height()/2);
+                positionAnimation = new QPropertyAnimation(button, "pos", this);
+                positionAnimation->setDuration(500);  // 设置动画持续时间为500毫秒
+                positionAnimation->setEasingCurve(QEasingCurve::InOutBack);
+                positionAnimation->setEndValue(global_target_pos);
+                connect(positionAnimation, &QPropertyAnimation::finished, this, [this, index, index_count]() {
+                    
+                    Item it = inventorySystem->get_item_in_bag_by_pos(index);
+                    ui->widget->resetWidgetItem(index, it);
+                    widgetsInGroundList[index_count]->hide();
+                    widgetsInGroundList[index_count]->setText("NULL");
+                    delete positionAnimation;
+                    positionAnimation = nullptr;
+                        ///widgetsInGroundList 清空，容量也清零
+                    listcount--;
+                    if(listcount== 0)
+                    {
+                        widgetsInGroundList.clear();    
+                    }
+                }
+                    );
+                positionAnimation->start();
         }
-    }
-    ///widgetsInGroundList 清空，容量也清零
-    if(listcount== 0)
-    {
-        widgetsInGroundList.clear();    
+        index_count++;
     }
 
+
+}
+
+void MainWindow::onTimeOut() {
+    m_Timer->stop();
+    bagInitPos.setX(ui->groupBox->width() + 24);
+    bagInitPos.setY(ui->groupBox_4->height() + 105);
+    this->resize(1200, 800);
+    this->show();
 }

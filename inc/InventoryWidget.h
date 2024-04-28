@@ -28,6 +28,7 @@ class InventoryWidget : public QWidget {
     void showAllWidgetItems(bool show);
     
     void setWidgetItemSize(QSize size);
+    QSize getWidgetItemSize();
     void setWidgetItemPos(QPoint pos);
     void addWidgetItem();
     void resetWidgetItem(int id, Item item);

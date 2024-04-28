@@ -7,6 +7,8 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QPushButton>
+#include <QResizeEvent>
+#include <QPropertyAnimation>
 #include "MyTableWidget.hpp"
 
 #include "CSVReader.hpp"
@@ -37,7 +39,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
-
+    void resizeEvent(QResizeEvent* event) ;
     void dropEvent(QDropEvent* event) ;
     void dragEnterEvent(QDragEnterEvent* event) ;
 
@@ -47,17 +49,21 @@ public:
     void on_groundItem_clicked();
     void on_pushButton_clicked();
     void on_collect_btn_clicked();
+    void onTimeOut();
 private:
     Ui::MainWindow *ui;
     ItemManager *itemManager;
     CSVReader *csvReader;
     InventorySystem *inventorySystem;
-
+    QPropertyAnimation* positionAnimation;
     bool isMousePressed;
 
     QPushButton *widgetUnderMouse{nullptr};
     std::vector<QPushButton*> widgetsInGroundList;
     int listcount{0};
+
+    QPoint bagInitPos;
+    QTimer *m_Timer ;
 };
 
 #endif // MAINWINDOW_H
