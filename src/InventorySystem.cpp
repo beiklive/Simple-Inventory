@@ -29,13 +29,7 @@ void InventorySystem::set_bag_capacity(int capacity)
 
 Item InventorySystem::get_empty_item()
 {
-    Item empty_item;
-    empty_item.id = 0;
-    empty_item.name = "NULL";
-    empty_item.quantity = 0;
-    empty_item.weight = 0;
-    empty_item.type = "NULL";
-    return empty_item;
+    return ItemManager::createEmptyItem();
 }
 
 int InventorySystem::get_total_value()

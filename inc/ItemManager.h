@@ -32,6 +32,7 @@ public:
     int size() const;
 
     void InitItems(std::vector<Item>& items);
+    static Item createEmptyItem();
     void addItem(Item& item);
     void removeItem(int id);
     void updateItem(int id, Item& item);

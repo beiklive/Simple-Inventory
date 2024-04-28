@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>175</width>
-    <height>146</height>
+    <width>196</width>
+    <height>119</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>115</width>
+    <height>85</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -16,6 +22,12 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
+     <property name="minimumSize">
+      <size>
+       <width>110</width>
+       <height>70</height>
+      </size>
+     </property>
      <property name="styleSheet">
       <string notr="true">border-color: rgb(0, 0, 0);</string>
      </property>
@@ -26,7 +38,7 @@
       <item row="0" column="0">
        <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1">
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="name_label">
           <property name="text">
            <string>Name</string>
           </property>
@@ -36,7 +48,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="count_label">
           <property name="enabled">
            <bool>true</bool>
           </property>

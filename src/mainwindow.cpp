@@ -16,9 +16,9 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->tableWidget, &QTableWidget::itemPressed, this, &MainWindow::on_tableWidget_itemPressed);
 
 
-    InventoryWidgetItem *item = new InventoryWidgetItem(ui->widget);
-    item->show();
+    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
 
+    ui->widget->initWidget(8);
 
 }
 
@@ -159,4 +159,9 @@ void MainWindow::on_groundItem_clicked()
         QString buttonName = button->text();
         StatusBarMessage(QStringLiteral("Clicked: ") + buttonName);
     }
+}
+
+void MainWindow:: on_pushButton_clicked()
+{
+    ui->widget->addWidgetItem();
 }

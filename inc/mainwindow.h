@@ -11,7 +11,7 @@
 
 #include "CSVReader.hpp"
 #include "ItemManager.h"
-
+#include "InventoryWidget.h"
 namespace Ui {
 class MainWindow;
 }
@@ -44,7 +44,7 @@ public:
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void on_tableWidget_itemPressed(QTableWidgetItem *item);
     void on_groundItem_clicked();
-
+    void on_pushButton_clicked();
 private:
     Ui::MainWindow *ui;
     ItemManager *itemManager;

@@ -98,3 +98,15 @@ int ItemManager::size() const
 {
     return m_items.size();
 }
+
+
+Item ItemManager::createEmptyItem()
+{
+    Item empty_item;
+    empty_item.id = 0;
+    empty_item.name = "NULL";
+    empty_item.quantity = 0;
+    empty_item.weight = 0;
+    empty_item.type = "NULL";
+    return empty_item;
+}
