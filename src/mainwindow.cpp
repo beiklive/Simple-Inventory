@@ -248,7 +248,6 @@ void MainWindow:: on_collect_btn_clicked()
                     widgetsInGroundList[index_count]->setText("NULL");
                     delete positionAnimation;
                     positionAnimation = nullptr;
-                        ///widgetsInGroundList 清空，容量也清零
                     listcount--;
                     if(listcount== 0)
                     {
